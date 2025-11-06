@@ -10,15 +10,15 @@ import { ArrowRight } from "lucide-react"
 
 const collections = [
     {
-        image: "/public/collections/cards/basicos.jpg",
+        image: "/collections/cards/basicos.jpg",
         title: "Básicos",
     },
     {
-        image: "/public/collections/cards/verao.jpg",
+        image: "/collections/cards/verao.jpg",
         title: "Verão",
     },
     {
-        image: "/public/collections/cards/inverno.jpg",
+        image: "/collections/cards/inverno.jpg",
         title: "Inverno",
     },
 ]
