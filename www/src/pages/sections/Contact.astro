@@ -1,0 +1,28 @@
+---
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import Section from "../layouts/Section.astro";
+---
+
+<Section id="contact">
+    <header class="mb-16 space-y-8">
+        <h2 class="text-4xl font-bold text-primary font-sans">Contato</h2>
+        <p class="text-primary text-lg font-normal">A Flagra é uma confecção de roupas e não trabalha com varejo diretamente, por isso, caso deseje produzir ou vender nossos produtos, entre em contato conosco através do formulário.</p>
+    </header>
+    <div class="grid grid-cols-3 gap-4">
+        <Card>
+            <CardHeader>
+                <CardTitle>Quero produzir</CardTitle>
+            </CardHeader>
+        </Card>
+        <Card>
+            <CardHeader>
+                <CardTitle>Quero vender</CardTitle>
+            </CardHeader>
+        </Card>
+        <Card>
+            <CardHeader>
+                <CardTitle>Quero comprar</CardTitle>
+            </CardHeader>
+        </Card>
+    </div>
+</Section>

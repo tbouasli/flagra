@@ -1,0 +1,13 @@
+---
+import Section from "../layouts/Section.astro";
+import CollectionsCarousel from "./Collections/carousel.tsx";
+---
+
+<Section id="collections">
+    <header class="mb-16">
+        <h2 class="text-4xl font-bold text-primary font-sans">Confira nossas coleções</h2>
+    </header>
+    <div class="">
+        <CollectionsCarousel client:load />
+    </div>
+</Section>

@@ -1,0 +1,9 @@
+---
+const { id } = Astro.props;
+---
+
+<section id={id} class="flex justify-center bg-background px-8 py-16">
+    <div class="container">
+        <slot />
+    </div>
+</section>

@@ -1,13 +1,15 @@
 ---
 import Header from "@/components/Header.astro";
 
-import Layout from "./layout.astro";
-import Hero from "./components/Hero.astro";
-import Collections from "./components/Collections.astro";
+import Layout from "./layouts/Base.astro";
+import Hero from "./sections/Hero.astro";
+import Collections from "./sections/Collections.astro";
+import Contact from "./sections/Contact.astro";
 ---
 
 <Layout title="Flagra">
 	<Header />
 	<Hero />
 	<Collections />
+	<Contact />
 </Layout>
