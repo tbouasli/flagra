@@ -31,9 +31,7 @@ export default defineConfig({
     sanity({
       projectId: "8u96f8y2",
       dataset: "production",
-      useCdn: true,
+      useCdn: false,
     })
   ],
-  output: 'server',
-
 });

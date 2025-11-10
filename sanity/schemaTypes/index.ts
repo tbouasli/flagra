@@ -1,8 +1,7 @@
-import {collectionType} from './collection'
-import {shirtType} from './shirt'
-import {heroType, heroTextType} from './landing-page/hero'
-import { pageBuilderType } from './landing-page/builder'
-import { pageType } from './landing-page/page'
+import { collectionType } from './collection'
+import { productType } from './product'
+import { productCategoryType } from './productCategory'
+import { colorType } from './color'
 
 
-export const schemaTypes = [collectionType, shirtType, heroType, heroTextType, pageBuilderType, pageType]
+export const schemaTypes = [collectionType, productType, productCategoryType, colorType]

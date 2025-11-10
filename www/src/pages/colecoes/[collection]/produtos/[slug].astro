@@ -1,0 +1,129 @@
+---
+import { sanityClient } from "sanity:client"
+import type { Product, Collection } from "@/types"
+import imageUrlBuilder from '@sanity/image-url'
+import Layout from "@/layouts/Layout.astro"
+import Section from "@/layouts/Section.astro"
+
+export async function getStaticPaths() {
+    const collections = await sanityClient.fetch(`*[_type == "collection"]{
+        ...,
+        products[]->{
+            ...,
+            type[]->,
+            colors[]->,
+            sizes,
+            images
+        }
+    }`)
+    
+    const paths = collections.flatMap((collection: Collection) => {
+        return collection.products.map((product: Product) => {
+            return {
+                params: { 
+                    collection: collection.slug.current,
+                    slug: product.slug.current 
+                },
+                props: { 
+                    product,
+                    collection 
+                },
+            }
+        })
+    })
+    
+    return paths
+}
+
+export const prerender = true;
+
+const { product } : { product: Product } = Astro.props;
+
+const builder = imageUrlBuilder(sanityClient)
+const coverImage = product.images.find((image) => image.coverImage)!
+const otherImages = product.images.filter((image) => !image.coverImage)
+---
+
+<Layout title={product.name}>
+    <Section className="min-h-[calc(100dvh-6rem)]" containerClassName="space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Image Gallery -->
+            <div class="space-y-4">
+                <div class="aspect-square rounded-lg overflow-hidden">
+                    <img 
+                        src={builder.image(coverImage.asset._ref).url()} 
+                        alt={coverImage.alt} 
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+                {otherImages.length > 0 && (
+                    <div class="grid grid-cols-4 gap-2">
+                        {otherImages.map((image) => (
+                            <div class="aspect-square rounded-md overflow-hidden">
+                                <img 
+                                    src={builder.image(image.asset._ref).url()} 
+                                    alt={image.alt} 
+                                    class="w-full h-full object-cover"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            <!-- Product Details -->
+            <div class="space-y-6">
+                <div>
+                    <h1 class="text-4xl font-bold text-primary font-sans mb-2">{product.name}</h1>
+                    {product.type && product.type.length > 0 && (
+                        <div class="flex gap-2 flex-wrap">
+                            {product.type.map((type) => (
+                                <span class="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">
+                                    {type.name}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                {product.description && (
+                    <p class="text-muted-foreground text-lg">{product.description}</p>
+                )}
+
+                <!-- Sizes -->
+                {product.sizes && product.sizes.length > 0 && (
+                    <div class="space-y-3">
+                        <h3 class="text-lg font-semibold">Tamanhos Disponíveis</h3>
+                        <div class="flex gap-2 flex-wrap">
+                            {product.sizes.map((size) => (
+                                <span class="px-4 py-2 border-2 border-border rounded-md text-sm font-medium uppercase hover:border-primary transition-colors">
+                                    {size}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <!-- Colors -->
+                {product.colors && product.colors.length > 0 && (
+                    <div class="space-y-3">
+                        <h3 class="text-lg font-semibold">Cores</h3>
+                        <div class="flex gap-3 flex-wrap">
+                            {product.colors.map((color) => (
+                                <div class="flex items-center gap-2">
+                                    <div 
+                                        class="w-8 h-8 rounded-full border-2 border-border"
+                                        style={`background-color: ${color.hex}`}
+                                        title={color.name}
+                                    />
+                                    <span class="text-sm">{color.name}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    </Section>
+</Layout>
+

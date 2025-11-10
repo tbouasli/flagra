@@ -1,0 +1,40 @@
+---
+import { sanityClient } from "sanity:client"
+import type { Collection } from "@/types"
+import Section from "@/layouts/Section.astro"
+import Layout from "@/layouts/Layout.astro"
+import { FilterableProducts } from "./_components/FilterableProducts"
+
+export async function getStaticPaths() {
+    const collections = await sanityClient.fetch(`*[_type == "collection"]{
+        ...,
+        products[]->{
+            ...,
+            type[]->,
+            colors[]->,
+            sizes,
+            images
+        }
+    }`)
+    return collections.map((collection: Collection) => {
+        return {
+            params: { slug: collection.slug.current },
+            props: { collection },
+        }
+    })
+}
+export const prerender = true;
+
+const { collection } : { collection: Collection } = Astro.props;
+---
+
+<Layout title={collection.name}>
+    <Section className="min-h-[calc(100dvh-6rem)]" containerClassName="space-y-8 flex flex-col">
+        <FilterableProducts 
+            products={collection.products} 
+            collectionSlug={collection.slug.current}
+            collectionName={collection.name}
+            client:load
+        />
+    </Section>
+</Layout>

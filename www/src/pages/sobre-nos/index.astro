@@ -1,0 +1,39 @@
+---
+import Header from "@/components/Header.astro";
+
+import Section from "@/layouts/Section.astro";
+import AboutImage from "@/assets/hero.jpg";
+import { Image } from "astro:assets";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Flagra">
+    <Section className="">
+        <div class="flex flex-col lg:grid lg:grid-cols-2 gap-8 w-full h-full">
+            <div class="row-span-1 lg:col-span-1 h-60 lg:h-full">
+                <Image src={AboutImage} alt="Sobre Nós" class="object-cover object-[70%_20%] w-full h-full rounded-md overflow-hidden" />
+            </div>
+            <div class="row-span-1 lg:col-span-1 space-y-8">
+                <h1 class="text-4xl font-bold text-primary font-sans">
+                    Sobre Nós
+                </h1>
+                <p class="text-primary text-lg font-normal">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nisl vestibulum, rhoncus libero ut, pellentesque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras et leo nisl. Ut semper pellentesque purus, non fermentum metus ullamcorper mattis. Etiam ultricies elementum nisi non sagittis. Praesent vel magna in leo bibendum tincidunt sit amet sit amet lectus. Aliquam lobortis nibh hendrerit mollis dapibus. Donec efficitur lectus rhoncus viverra euismod. In dictum vulputate nisl at facilisis. Cras cursus porta est congue mollis. Ut pharetra mollis sem, laoreet accumsan sapien porta eu. Ut tempor mi turpis, ac vestibulum metus fringilla in.
+                    <br />
+                    <br />
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nisl vestibulum, rhoncus libero ut, pellentesque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras et leo nisl. Ut semper pellentesque purus, non fermentum metus ullamcorper mattis. Etiam ultricies elementum nisi non sagittis. Praesent vel magna in leo bibendum tincidunt sit amet sit amet lectus. Aliquam lobortis nibh hendrerit mollis dapibus. Donec efficitur lectus rhoncus viverra euismod. In dictum vulputate nisl at facilisis. Cras cursus porta est.
+                </p>
+                <div class="flex gap-8">
+                    <div class="flex flex-col gap-2">
+                        <span class="text-6xl font-bold text-primary font-sans">100+</span>
+                        <span class="text-primary text-lg font-normal">Clientes satisfeitos</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-6xl font-bold text-primary font-sans">100+</span>
+                        <span class="text-primary text-lg font-normal">Clientes satisfeitos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Section>
+</Layout>

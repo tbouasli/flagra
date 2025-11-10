@@ -43,10 +43,10 @@ export const collectionType = defineType({
       ],
     }),
     defineField({
-      name: 'shirts',
-      title: 'Shirts',
+      name: 'products',
+      title: 'Producs',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'shirt'}]}],
+      of: [{type: 'reference', to: [{type: 'product'}]}],
     }),
   ],
   preview: {

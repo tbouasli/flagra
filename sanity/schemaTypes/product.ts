@@ -1,8 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
-export const shirtType = defineType({
-  name: 'shirt',
-  title: 'Shirt',
+export const productType = defineType({
+  name: 'product',
+  title: 'Product',
   type: 'document',
   fields: [
     defineField({
@@ -30,50 +30,15 @@ export const shirtType = defineType({
     defineField({
       name: 'type',
       title: 'Type',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'T-Shirt', value: 'tshirt'},
-          {title: 'Polo', value: 'polo'},
-          {title: 'Button-Up', value: 'buttonup'},
-          {title: 'Tank Top', value: 'tanktop'},
-          {title: 'Long Sleeve', value: 'longsleeve'},
-          {title: 'Henley', value: 'henley'},
-        ],
-        layout: 'dropdown',
-      },
-      validation: (Rule) => Rule.required(),
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'productCategory'}]}],
+      validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
       name: 'colors',
       title: 'Available Colors',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'name',
-              title: 'Color Name',
-              type: 'string',
-              validation: (Rule) => Rule.required(),
-            },
-            {
-              name: 'hex',
-              title: 'Hex Code',
-              type: 'string',
-              description: 'e.g., #FF0000 for red',
-            },
-          ],
-          preview: {
-            select: {
-              title: 'name',
-              hex: 'hex',
-              media: 'image',
-            },
-          },
-        },
-      ],
+      of: [{type: 'reference', to: [{type: 'color'}]}],
       validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
@@ -110,9 +75,30 @@ export const shirtType = defineType({
               type: 'string',
               title: 'Alternative text',
             },
+            {
+              name: 'coverImage',
+              type: 'boolean',
+              title: 'Cover Image',
+              initialValue: false,
+              validation: (Rule) => Rule.required(),
+            }
           ],
         },
       ],
+      // at least one image is required and at least one cover image
+      validation: (Rule) =>
+        Rule.required()
+          .min(1)
+          .custom((images) => {
+            if (!Array.isArray(images)) {
+              return 'At least one image is required'
+            }
+            const coverImage = images.find((image: any) => image?.coverImage)
+            if (!coverImage) {
+              return 'At least one cover image is required'
+            }
+            return true
+          }),
     }),
     defineField({
       name: 'featured',
@@ -125,8 +111,15 @@ export const shirtType = defineType({
   preview: {
     select: {
       title: 'name',
-      subtitle: 'type',
+      types: 'type',
       media: 'images.0',
+    },
+    prepare({title, types, media}) {
+      return {
+        title,
+        subtitle: types?.length ? `${types.length} type(s)` : 'No types',
+        media,
+      }
     },
   },
 })

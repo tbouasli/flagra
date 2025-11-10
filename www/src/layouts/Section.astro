@@ -1,9 +1,17 @@
 ---
-const { id } = Astro.props;
+export interface Props {
+    id?: string;
+    className?: string;
+    containerClassName?: string;
+}
+
+
+const { id, className, containerClassName } = Astro.props;
+import { cn } from "@/lib/utils";
 ---
 
-<section id={id} class="flex justify-center bg-background px-8 py-16">
-    <div class="container">
+<section id={id} class={cn("flex justify-center bg-background px-4 py-8 sm:py-10 sm:px-8", className)}>
+    <div class={cn("container", containerClassName)}>
         <slot />
     </div>
 </section>
