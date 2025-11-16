@@ -7,19 +7,69 @@ import '@fontsource/fira-sans/800.css';
 
 interface Props {
     title: string;
+    description?: string;
+    image?: string;
+    imageAlt?: string;
+    type?: 'website' | 'article' | 'product';
+    canonical?: string;
+    keywords?: string;
 }
-const { title } = Astro.props;
+
+const {
+    title,
+    description = "Flagra - Moda e estilo com qualidade.",
+    image = "/favicon.svg",
+    imageAlt = "Flagra Logo",
+    type = "website",
+    canonical,
+    keywords = "moda, roupas, fashion, estilo",
+} = Astro.props;
+
+// Build the canonical URL
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site);
+
+// Build the full image URL
+const imageURL = new URL(image, Astro.site);
+
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 ---
 
-<html lang="en">
+<html lang="pt-BR">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Primary Meta Tags -->
 		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<meta name="keywords" content={keywords} />
+		<link rel="canonical" href={canonicalURL} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={type} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={imageURL} />
+		<meta property="og:image:alt" content={imageAlt} />
+		<meta property="og:site_name" content="Flagra" />
+		<meta property="og:locale" content="pt_BR" />
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={canonicalURL} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={imageURL} />
+		<meta name="twitter:image:alt" content={imageAlt} />
+		
+		<!-- Additional SEO -->
+		<meta name="robots" content="index, follow" />
+		<meta name="author" content="Flagra" />
 	</head>
     <body>
         <Header />
